@@ -1,0 +1,220 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a id="dronePage" href="/drone">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+            </a>
+            <a id="inquiryPage" href="/items">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+            </a>
+            <a id="asPage" href="/as">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+            </a>
+            <a id="deliveryPage" href="/delivery">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+            </a>
+            <a id="flightPage" href="/flight">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+            </a>
+
+
+            <a id="adminPage" href="/members/admin">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+            </a>
+            <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+            <a href="/members/info">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+            </a>
+            <div style="float: right;margin-right: 8px;color: black">|</div>
+            <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+            <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div style="text-align: left; margin-top:2%;margin-left :14%">
+    <h2 style="font-weight: bold">고객 문의 사항</h2>
+</div>
+
+
+<div class="container" style="max-width: 70%;margin-top:3%">
+    <div style="font-weight: bold;margin-top: 30px; margin-bottom: 10px;">
+        <div style= "font-size: 20px;float: left">완료된 문의사항</div>
+        <button style= "background-color:transparent; border:none;z-index: 3"  th:onclick="|location.href='@{/items}'|">
+            <img id="change" src="../img/change.png" alt="Clickable Image" style="width: 20px;height: 20px;margin-left: 15px">
+        </button>
+    </div>
+    <form th:object="${itemSearch}" method="get" class="form-inline">
+        <div class="row">
+            <div class="col">
+                <div  style="width: auto;float:left;margin-right: 20px">
+                    <select class="form-select" id= "select" style="margin: auto">
+                        <option value="1">제품</option>
+                        <option value="2">분류</option>
+                        <option value="3">기관명/업체명</option>
+                    </select>
+                </div>
+                <div id="itemNameDiv"  style="width: auto;display: block;float:left;">
+                    <select class="form-select" id="itemName" th:field="*{itemName}"style="margin: auto">
+                        <option value=" ">전체</option>
+                        <option value="KnX">KnX</option>
+                        <option value="KnX2">KnX2</option>
+                        <option value="KnX2-D">KnX2-D</option>
+                        <option value="GCS(태블릿)">GCS(태블릿)</option>
+                    </select>
+                </div>
+                <div  id="typeDiv" style="width: auto;float:left;display: none">
+                    <select class="form-select" id="type" th:field="*{type}">
+                        <option value=" ">전체</option>
+                        <option value="A/S">A/S</option>
+                        <option value="견적">견적</option>
+                        <option value="기능/개발/시연">기능/개발/시연</option>
+                        <option value="운용문의">운용문의</option>
+                        <option value="납품">납품</option>
+                        <option value="교육">교육</option>
+                    </select>
+                </div>
+                <div id="companyDiv" style="width: auto;display: none;float:left">
+                    <input id="company" type="text" th:field="*{company}" class="form-control" placeholder="기관명/업체명"/>
+                </div>
+            </div>
+            <div class="col" style="width: auto;float:left">
+                <button type="submit" class="btn btn-secondary mb-2">검색</button>
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </form>
+
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>날짜</th>
+                <th>기관명/업체명</th>
+                <th>고객 성함</th>
+                <th>분류</th>
+                <th>문의 제품</th>
+                <th>상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}" th:onclick="|location.href='@{/items/{itemId}(itemId=${item.id})}'|">
+                <td th:text="${item.id}">No.</td>
+                <td th:text="${item.date}">날짜</td>
+                <td th:text="${item.company}">기관명/업체명</td>
+                <td th:text="${item.customer}">고객 성함</td>
+                <td th:text="${item.type}">분류</td>
+                <td th:text="${item.itemName}">문의 제품</td>
+                <td th:utext="${item.complete ? 'O' : 'X'}">해결 완료</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example ">
+        <ul class="pagination justify-content-center"th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})">
+            <li th:if="${start > 1}">
+                <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/items/complete(page=0)}'|">
+                    <img style="width: 20px;height: 20px" src="/img/startPage.png"/>
+                </button>
+            </li>
+            <li th:if="${start > 1}">
+                <button style="background-color:transparent; border:none;" th:onclick="|location.href='@{/items/complete(page=${start - maxPage})}'|">
+                    <img style="width: 20px;height: 20px" src="/img/previous.png"/>
+                </button>
+            </li>
+
+            <li style="margin-left: 10px;margin-right: 10px;margin-top: 2px" th:each="page: ${#numbers.sequence(start, end)}">
+                <a  th:text="${page}" th:href="@{/items/complete(itemName = ${itemSearch.getItemName()},type = ${itemSearch.getType()},company = ${itemSearch.getCompany()}, page=${page - 1})}" th:style="${page == thisP ? 'border: 2px solid #0d6efd; border-radius: 5px;padding: 2px; ' : ''}" ></a>
+            </li>
+
+            <li th:if="${end < items.totalPages}">
+                <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/items/complete(page=${start + maxPage})}'|">
+                    <img style="width: 20px;height: 20px" src="/img/next.png"/>
+                </button>
+            </li>
+            <li th:if="${end < items.totalPages}">
+                <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/items/complete(page=${items.totalPages - 1})}'|">
+                    <img style="width: 20px;height: 20px" src="/img/endPage.png"/>
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+</div> <!-- /container -->
+<script th:inline="javascript">
+    var button = document.getElementById("addBtn");
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+    /*<![CDATA[*/
+
+    var rank = [[${member.rank}]];
+    if(rank === "guest"){
+        button.style.display = "none";
+    }
+    if(rank !="admin"){
+        admin.style.display = "none";
+        admin2.style.display = "none";
+    }
+
+    /*]]>*/
+
+    var select = document.getElementById("select");
+    var itemNameD = document.getElementById("itemNameDiv");
+    var typeD = document.getElementById("typeDiv");
+    var companyD = document.getElementById("companyDiv");
+
+
+    var itemName = document.getElementById("itemName");
+    var type = document.getElementById("type");
+    var company = document.getElementById("company");
+
+    itemName.value= " ";
+    type.value= " ";
+    company.value= "";
+
+    select.addEventListener("change",function (){
+        var selectedValue = select.value;
+
+        if (selectedValue === "1") {
+            itemNameD.style.display = "block";
+            typeD.style.display = "none";
+            companyD.style.display = "none";
+            type.value= " ";
+            company.value= "";
+        }else if (selectedValue === "2") {
+            itemNameD.style.display = "none";
+            typeD.style.display = "block";
+            companyD.style.display = "none";
+            itemName.value= " ";
+            company.value= "";
+        }else if (selectedValue === "3") {
+            itemNameD.style.display = "none";
+            typeD.style.display = "none";
+            companyD.style.display = "block";
+            itemName.value= " ";
+            type.value= " ";
+        }
+    });
+
+
+
+</script>
+</body>
+</html>

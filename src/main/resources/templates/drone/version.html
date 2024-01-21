@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        #memo{
+            position: fixed;
+            float: right;
+            right: 100px;
+            top: 26.5%;
+            width: 300px;
+            padding: 0 10px 10px;
+            border: 1px solid #ccc;
+            background: #ffffff;
+            text-align: left;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a id="dronePage" href="/drone">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+            </a>
+            <a id="inquiryPage" href="/items">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+            </a>
+            <a id="asPage" href="/as">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+            </a>
+            <a id="deliveryPage" href="/delivery">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+            </a>
+            <a id="flightPage" href="/flight">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+            </a>
+
+
+            <a id="adminPage" href="/members/admin">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+            </a>
+            <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+            <a href="/members/info">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+            </a>
+            <div style="float: right;margin-right: 8px;color: black">|</div>
+            <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+            <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>버전 정보</h2>
+    </div>
+    <div>
+        <label for="model">모델</label>
+        <input type="text" id="model"class="form-control"th:value="${droneM}" readonly>
+    </div>
+    <div>
+        <label for="dBoard">기체 보드</label>
+        <input type="text" id="dBoard" class="form-control"th:value="${version.droneBoard}" readonly>
+    </div>
+    <div>
+        <label for="bBoard">배터리 보드</label>
+        <input type="text" id="bBoard" class="form-control" th:value="${version.batteryBoard}" readonly>
+    </div>
+    <div>
+        <label for="cOut">충전기 사출</label>
+        <input type="text" id="cOut" class="form-control" value="10" th:value="${version.chargerOut}" readonly>
+    </div>
+    <div>
+        <label for="cBoard">충전기 보드</label>
+        <input type="text" id="cBoard" class="form-control" value="10" th:value="${version.chargerBoard}" readonly>
+    </div>
+    <div>
+        <label for="keyInput">키주입기</label>
+        <input type="text" id="keyInput" class="form-control" value="10" th:value="${version.keyInput}" readonly>
+    </div>
+
+    <div>
+        <label for="gimbal">짐벌</label>
+        <input type="text" id="gimbal" class="form-control" value="10" th:value="${version.gimbal}" readonly>
+    </div>
+    <div>
+        <label for="tablet">테블릿</label>
+        <input type="text" id="tablet" class="form-control" value="10" th:value="${version.tablet}" readonly>
+    </div>
+    <div>
+        <label for="tablet">RTK</label>
+        <input type="text" id="rtk" class="form-control" value="10" th:value="${version.rtk}" readonly>
+    </div>
+    <div>
+        <label for="tablet">FC펌웨어</label>
+        <input type="text" id="fc" class="form-control" value="10" th:value="${version.fc}" readonly>
+    </div>
+    <div>
+        <label for="tablet">RC펌웨어</label>
+        <input type="text" id="rc" class="form-control" value="10" th:value="${version.rc}" readonly>
+    </div>
+    <div>
+        <label for="tablet">GCS</label>
+        <input type="text" id="gcs" class="form-control" value="10" th:value="${version.gcs}" readonly>
+    </div>
+    <div>
+        <label for="tablet">메뉴얼</label>
+        <input type="text" id="manual" class="form-control" value="10" th:value="${version.manual}" readonly>
+    </div>
+
+
+    <hr class="my-4">
+
+    <div class="row" style="margin-bottom: 100px">
+        <div id="btn"  class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:if="${droneM}=='KnX'"
+                    th:onclick="|location.href='@{/version/KnX/edit}'|"
+                    type="button" >수정</button>
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:if="${droneM}=='KnX2'"
+                    th:onclick="|location.href='@{/version/KnX2/edit}'|"
+                    type="button" >수정</button>
+        </div>
+        <div class="col">
+            <button id="btn2" class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/drone/manage}'|"
+                    type="button">취소</button>
+        </div>
+    </div>
+
+</div>
+<script th:inline="javascript">
+    var button = document.getElementById("btn");
+    var button2 = document.getElementById("btn2");
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+    var getMemo = document.getElementById("getMemo");
+    var scroll = document.getElementById("scroll");
+    var button = document.getElementById("addBtn");
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+    /*<![CDATA[*/
+
+    var rank = [[${member.rank}]];
+    if(rank === "guest"){
+        button.style.display = "none";
+    }
+    if(rank !="admin"){
+        admin.style.display = "none";
+        admin2.style.display = "none";
+    }
+
+
+    /*]]>*/
+    scroll.scrollTop = scroll.scrollHeight;
+</script>
+</body>
+</html>

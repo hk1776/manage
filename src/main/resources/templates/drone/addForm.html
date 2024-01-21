@@ -1,0 +1,683 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a id="dronePage" href="/drone">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+            </a>
+            <a id="inquiryPage" href="/items">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+            </a>
+            <a id="asPage" href="/as">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+            </a>
+            <a id="deliveryPage" href="/delivery">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+            </a>
+            <a id="flightPage" href="/flight">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+            </a>
+
+
+            <a id="adminPage" href="/members/admin">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+            </a>
+            <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+            <a href="/members/info">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+            </a>
+            <div style="float: right;margin-right: 8px;color: black">|</div>
+            <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+            <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div id="settingDiv" class="container"style="max-width: 40%">
+
+    <div class="py-5 text-center">
+        <h2>드론 생성</h2>
+    </div>
+        <div>
+            <div>
+                <label for="company"style="font-size: 18px;font-weight: bold;margin-top: 10px">기관명/업체명</label>
+                <input type="text" id="company"  class="form-control" placeholder="기관/업체명을 입력하세요">
+            </div>
+
+            <div>
+                <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                    납품 일정
+                </div>
+                <div style="float: left;width: 48%;margin-right: 2%">
+                    접수/입고일
+                    <div type="text" id="inputDate"class="form-control"/></div>
+                </div>
+
+                <div style="width: 48%;float:left;margin-left: 2%">
+                 납품 예정일
+                    <p><input id="outputDate" class="form-control"type="date"></p>
+                </div>
+            </div>
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                식 개수
+            </div>
+            <div>
+                <input style="width: 250px" type="number" id="sNum" class="form-control"min="1" step="1" value="1">
+
+            </div>
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                식 시리얼
+            </div>
+            <div style="float: left;margin-right: 15px">
+               • RTK 여부 :
+            </div>
+            <div>
+                <label for="rtkO">있음</label>
+                <input type="checkbox" id="rtkO" name="myCheckbox" onclick="rtkOk()">
+                <label for="rtkX"style="margin-left: 10px">없음</label>
+                <input type="checkbox" id="rtkX" name="myCheckbox" onclick="rtkNo()">
+            </div>
+
+
+            <div style="float: left;margin-right: 15px;margin-top: 10px">
+                • 구성품 :
+            </div>
+            <div style="margin-top: 10px">
+                <label for="package1">완전체</label>
+                <input type="checkbox" id="package1" name="myCheckbox" onclick="packageFull()">
+                <label for="package2"style="margin-left: 10px">조종기 제외</label>
+                <input type="checkbox" id="package2" name="myCheckbox" onclick="packageM1()">
+                <label for="package3"style="margin-left: 10px">조종기/짐벌 제외</label>
+                <input type="checkbox" id="package3" name="myCheckbox" onclick="packageM2()">
+            </div>
+
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                기체 시리얼
+            </div>
+            <div style="float: left;margin-right: 15px">
+                •  RTK 여부 :
+            </div>
+            <div>
+                <label for="dRtkO">있음</label>
+                <input type="checkbox" id="dRtkO" name="myCheckbox" onclick="rtkOk()">
+                <label for="dRtkX"style="margin-left: 10px">없음</label>
+                <input type="checkbox" id="dRtkX" name="myCheckbox" onclick="rtkNo()">
+            </div>
+
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                바인딩 번호
+            </div>
+            <div>
+                <input type="text" id="binding" class="form-control" placeholder="바인딩 번호를 입력하세요">
+            </div>
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                조종기
+            </div>
+            <div style="float: left;margin-right: 15px">
+                •  RTK 여부 :
+            </div>
+            <div>
+                <label for="cRtkO">있음</label>
+                <input type="checkbox" id="cRtkO" name="myCheckbox" onclick="rtkOk()">
+                <label for="cRtkX"style="margin-left: 10px">없음</label>
+                <input type="checkbox" id="cRtkX" name="myCheckbox"onclick="rtkNo()">
+            </div>
+            <div style="float: left;margin-right: 15px;margin-top: 10px">
+                •  스마트 조종 관제기 :
+            </div>
+            <div style="margin-top: 10px">
+                <label for="cSmartO">있음</label>
+                <input type="checkbox" id="cSmartO" name="myCheckbox" onclick="controllerSO()">
+                <label for="cSmartX"style="margin-left: 10px">없음</label>
+                <input type="checkbox" id="cSmartX" name="myCheckbox" onclick="controllerSX()">
+            </div>
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                배터리
+            </div>
+            <div>
+                <input style="width: 250px" type="number" id="bNum" class="form-control"min="0" step="1" placeholder="수량을 입력해주세요.">
+
+            </div>
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                배터리 충전기
+            </div>
+            <div>
+                <input style="width: 250px" type="number" id="bcNum" class="form-control"min="0" step="1" placeholder="수량을 입력해주세요.">
+            </div>
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                짐벌
+            </div>
+            <input style="width: 250px" type="text" id="gimbal" class="form-control">
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                테블릿
+            </div>
+            <input style="width: 250px" type="text" id="tablet" class="form-control">
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                RTK
+            </div>
+            <input style="width: 250px" type="text" id="rtk" class="form-control">
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                Key 주입기
+            </div>
+            <div style="margin-top: 10px">
+                <label for="cSmartO">있음</label>
+                <input type="checkbox" id="keyO" name="myCheckbox" onclick="setKeyO()">
+                <label for="cSmartX"style="margin-left: 10px">없음</label>
+                <input type="checkbox" id="keyX" name="myCheckbox" onclick="setKeyX()">
+            </div>
+            <input style="width: 250px;display: none" type="text" id="key" class="form-control">
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                보드번호
+            </div>
+            <div>
+                <input type="text" id="board" class="form-control" placeholder="보드 번호를 입력하세요">
+            </div>
+
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                펌웨어 버전
+            </div>
+            <div>
+                <div style="float: left;margin-top: 5px;margin-right: 15px">
+                    •   FC:
+                </div>
+                <input style="width: 250px" type="text" id="fc" class="form-control">
+            </div>
+            <div style="margin-top: 15px">
+                <div style="float: left;margin-top: 5px;margin-right: 15px">
+                    •   RC:
+                </div>
+                <input style="width: 250px" type="text" id="rc" class="form-control">
+            </div>
+            <div style="margin-top: 15px">
+                <div style="float: left;margin-top: 5px;margin-right: 15px">
+                    •   GCS:
+                </div>
+                <input style="width: 250px" type="text" id="gcs" class="form-control">
+            </div>
+
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                메뉴얼 버전관리
+            </div>
+            <input style="width: 250px" type="text" id="manual" class="form-control">
+            <div style="font-size: 18px;font-weight: bold;margin-top: 20px">
+                비고
+            </div>
+            <div>
+                <input type="text" id="note"  class="form-control" placeholder="참고 사항을 입력하세요">
+            </div>
+        </div>
+
+
+        <hr class="my-4">
+
+        <div class="row"style="margin-bottom: 200px">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" onclick="result()">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/drone/manage}'|"
+                        type="button" th:text="#{button.cancel}">취소</button>
+            </div>
+        </div>
+    <form action="item.html" th:action th:object="${drone}" method="post">
+    </form>
+
+</div>
+<div id ="resultDiv" class="container"style="max-width: 40%;height:auto;display: none;border: 1px solid #ccc; border-radius: 10px;margin-top: 20px;margin-bottom: 20px ">
+    <div id="count" style="float:right;width: 30px;height: 30px;text-align: center;display: none;font-weight: bold;font-size: 20px;color: #0b5ed7">
+        1개
+    </div>
+    <table class="table"style="font-size: 13px">
+        <thead>
+        <tr>
+            <th>항목</th>
+            <th>내용 및 시리얼</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>기관명/업체명</td>
+            <td id="companyRD"></td>
+        </tr>
+        <tr>
+            <td>식 시리얼</td>
+            <td id="serialRD"></td>
+        </tr>
+        <tr>
+            <td>기체 시리얼</td>
+            <td id="droneRD"></td>
+        </tr>
+        <tr>
+            <td>바인딩 번호</td>
+            <td id="bindingRD"></td>
+        </tr>
+        <tr>
+            <td>조종기</td>
+            <td id="controllerRD"></td>
+        </tr>
+        <tr>
+            <td>배터리</td>
+            <td id="batteryRD"></td>
+        </tr>
+        <tr>
+            <td>배터리 충전기</td>
+            <td id="chargerRD"></td>
+        </tr>
+        <tr>
+            <td>짐벌</td>
+            <td id="gimbalRD"></td>
+        </tr>
+        <tr>
+            <td>테블릿</td>
+            <td id="tabletRD"></td>
+        </tr>
+        <tr>
+            <td>RTK</td>
+            <td id="rtkRD"></td>
+        </tr>
+        <tr>
+            <td>Key 주입기</td>
+            <td id="keyRD"></td>
+        </tr>
+        <tr>
+            <td>보드 번호</td>
+            <td id="boardRD"></td>
+        </tr>
+        <tr>
+            <td>펌웨어 버전</td>
+            <td id="firmRD"></td>
+        </tr>
+        <tr>
+            <td>메뉴얼 버전</td>
+            <td id="manualRD"></td>
+        </tr>
+        <tr>
+            <td>비고</td>
+            <td id="noteRD"></td>
+        </tr>
+
+        </tbody>
+    </table>
+
+</div>
+<div id="saveDiv" class="container"style="max-width: 40%;display: none">
+    <div class="row"style="margin-bottom: 200px">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg" onclick="sendData()">등록</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="cancelResult()"
+                    type="button">취소</button>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+
+    var date = getCurrentDate();
+    var date2 = getCurrentDate2();
+    var rtkO = document.getElementById("rtkO");
+    var rtkX = document.getElementById("rtkX");
+    var package1 = document.getElementById("package1");
+    var package2 = document.getElementById("package2");
+    var package3 = document.getElementById("package3");
+    var dRtkO = document.getElementById("dRtkO");
+    var dRtkX = document.getElementById("dRtkX");
+    var keyO = document.getElementById("keyO");
+    var keyX = document.getElementById("keyX");
+    var binding = document.getElementById("binding");
+    var cRtkO = document.getElementById("cRtkO");
+    var cRtkX = document.getElementById("cRtkX");
+    var cSmartO = document.getElementById("cSmartO");
+    var cSmartX = document.getElementById("cSmartX");
+    var bNum = document.getElementById("bNum");
+    var bcNum = document.getElementById("bcNum");
+    var gimbal = document.getElementById("gimbal");
+    var tablet = document.getElementById("tablet");
+    var rtk = document.getElementById("rtk");
+    var key = document.getElementById("key");
+    var board = document.getElementById("board");
+    var fc = document.getElementById("fc");
+    var rc = document.getElementById("rc");
+    var gcs = document.getElementById("gcs");
+    var manual = document.getElementById("manual");
+    var note = document.getElementById("note");
+    var settingD = document.getElementById("settingDiv");
+    var resultD = document.getElementById("resultDiv");
+    var companyD = document.getElementById("company");
+    var saveD = document.getElementById("saveDiv");
+
+    var companyRD = document.getElementById("companyRD");
+    var serialRD = document.getElementById("serialRD");
+    var droneRD = document.getElementById("droneRD");
+    var bindingRD = document.getElementById("bindingRD");
+    var controllerRD = document.getElementById("controllerRD");
+    var batteryRD = document.getElementById("batteryRD");
+    var chargerRD = document.getElementById("chargerRD");
+    var gimbalRD = document.getElementById("gimbalRD");
+    var tabletRD = document.getElementById("tabletRD");
+    var rtkRD = document.getElementById("rtkRD");
+    var keyRD = document.getElementById("keyRD");
+    var boardRD = document.getElementById("boardRD");
+    var firmRD = document.getElementById("firmRD");
+    var manualRD = document.getElementById("manualRD");
+    var noteRD = document.getElementById("noteRD");
+    var serialN,droneN,controllerN,batteryN,chargerN,gimbalN,rtkN,keyN;
+    var vDroneB,vController,vBatteryB,vChargerOut,vChargerB,vKey,vGimbal,vTablet,vRtk,vFc,vRc,vGcs,vManual;
+    var serialRIn,serialPIn,dSerialIn,controllerRIn,controllerSIn;
+    var output = document.getElementById("outputDate");
+    var input = document.getElementById("inputDate");
+    var sNum = document.getElementById("sNum");
+    var count = document.getElementById("count");
+
+    /*<![CDATA[*/
+    var rank = "[[${member.rank}]]";
+    var id = "[[${member.id}]]";
+    vDroneB = "[[${version.droneBoard}]]";
+    vController ="[[${version.controller}]]";
+    vBatteryB = "[[${version.batteryBoard}]]";
+    vChargerOut= "[[${version.chargerOut}]]";
+    vChargerB = "[[${version.chargerBoard}]]";
+    vKey = "[[${version.keyInput}]]";
+    vGimbal = "[[${version.gimbal}]]";
+    vTablet = "[[${version.tablet}]]";
+    vRtk = "[[${version.rtk}]]";
+    vFc = "[[${version.fc}]]";
+    vRc = "[[${version.rc}]]";
+    vGcs = "[[${version.gcs}]]";
+    vManual = "[[${version.manual}]]";
+
+    serialN = parseInt("[[${num.binding}]]");
+    droneN = parseInt("[[${num.drone}]]");
+    controllerN = parseInt("[[${num.controller}]]");
+    batteryN = parseInt("[[${num.battery}]]");
+    chargerN = parseInt("[[${num.charger}]]");
+    gimbalN = parseInt("[[${num.gimbal}]]");
+    rtkN = parseInt("[[${num.rtk}]]");
+    keyN = parseInt("[[${num.keyInput}]]");
+
+
+    if(rank != "admin"){
+        admin.style.display = "none";
+        admin2.style.display = "none";
+    }
+    /*]]>*/
+    // 현재 날짜를 가져오는 JavaScript 함수
+
+    function rtkOk() {
+        rtkO.checked = true;
+        rtkX.checked = false;
+        serialRIn = "UKnX2R";
+        console.log('rtk'+serialRIn);
+
+        dRtkO.checked = true;
+        dRtkX.checked=false;
+        dSerialIn = "DKX2R";
+        console.log('dRtkO'+dSerialIn);
+
+        cRtkO.checked=true;
+        cRtkX.checked=false;
+        controllerRIn = "KCSGAR";
+        console.log('cRtkO'+controllerRIn);
+        rtk.value="DKY"+vRtk.padStart(2,'0');
+        rtk.readOnly = false;
+
+    }
+    function rtkNo() {
+        rtkX.checked = true;
+        rtkO.checked = false;
+        serialRIn = "UKnX2S";
+        console.log('표준형'+serialRIn);
+
+        dRtkX.checked = true;
+        dRtkO.checked=false;
+        dSerialIn = "DKX2S";
+        console.log('dRtkX'+dSerialIn);
+
+        cRtkX.checked=true;
+        cRtkO.checked=false;
+        controllerRIn = "KCSGAS";
+        console.log('cRtkX'+controllerRIn);
+        rtk.value="x";
+        rtk.readOnly = true;
+    }
+
+    function packageFull() {
+        package2.checked = false;
+        package3.checked = false;
+        serialPIn = "R01";
+        console.log('01'+serialPIn);
+    }
+    function packageM1() {
+        package1.checked = false;
+        package3.checked = false;
+        serialPIn = "R02";
+        console.log('02'+serialPIn);
+    }
+    function packageM2() {
+        package1.checked = false;
+        package2.checked = false;
+        serialPIn = "03";
+        console.log('03'+serialPIn);
+    }
+    function setKeyO() {
+        keyX.checked=false
+        key.style.display= "block";
+        key.value = "MSKS"+vKey;
+    }
+    function setKeyX() {
+        keyO.checked=false
+        key.style.display= "none";
+        key.value = "x";
+    }
+
+    function controllerSO() {
+        cSmartX.checked=false
+        controllerSIn = "02";
+        console.log('cSmartO'+controllerSIn);
+    }
+    function controllerSX() {
+        cSmartO.checked=false
+        controllerSIn = "01";
+        console.log('cSmartX'+controllerSIn);
+    }
+    gimbal.value = "KGK2DR"+vGimbal.padStart(2, '0');
+    tablet.value =vTablet;
+    fc.value = vFc;
+    rc.value = vRc;
+    gcs.value=vGcs;
+    manual.value= vManual;
+
+
+    window.onload = function() {
+        input.innerHTML = getCurrentDate2();
+    };
+
+    function result() {
+        console.log("company:"+companyD.value+"/serialRIn:"+serialRIn+"/serialPIn"+serialPIn+"/dSerialIn"+dSerialIn+"/binding"+binding.value+"/controllerRIn"+controllerRIn+
+            "/controllerSIn"+controllerSIn+"/bNum"+bNum.value+"/bcNum"+bcNum.value+"/gimbal"+gimbal.value+"/tablet"+tablet.value+"/rtk"+rtk.value+"/key"+key.value+"/fc"+fc.value
+            +"/rc"+rc.value+"/gcs"+gcs.value+"/manual"+manual.value);
+
+
+        if(companyD.value==null||companyD.value==""||serialRIn=== 'undefined'||serialPIn==='undefined'||dSerialIn==='undefined'||binding.value==null||binding.value==""||controllerRIn.value==='undefined'
+            ||controllerSIn.value==='undefined'||bNum.value==null||bNum.value==""||bcNum==null||bcNum==""||gimbal.value==null||gimbal.value==""||tablet.value==null||tablet.value==""
+            ||rtk.value==null||rtk.value==""||key.value==null||key.value==""||fc.value==null||fc.value==""||rc.value==null||rc.value==""||gcs.value==null||gcs.value==""
+            ||manual.value==null||manual.value==""){
+
+            alert("모든 항목을 입력해 주세요. (보드 번호, 비고 제외)")
+        }else {
+            settingD.style.display="none";
+            resultD.style.display="block";
+            saveD.style.display="block";
+            var roop1 = parseInt(bNum.value);
+            var roop2 =  parseInt(bcNum.value);
+
+            var batteryR="";
+            var bcR="";
+            for (var i = 0; i < roop1; i++) {
+                batteryN = batteryN+1;
+                console.log(batteryN)
+                batteryR+="DKB74B"+vBatteryB.padStart(2, '0')+"-"+date+String(batteryN).padStart(4, '0')+"/";
+            }
+            for (var i = 0; i < roop2; i++) {
+                chargerN= chargerN+1;
+                bcR+="DKQ"+vChargerOut+"2"+vChargerB+"-"+date+String(chargerN).padStart(4, '0')+"/";
+            }
+            if(batteryR.length>1){
+                batteryR = batteryR.slice(0,-1);
+            }
+            if(bcR.length>1){
+                bcR = bcR.slice(0,-1);
+            }
+            if(sNum.value>1){
+                count.style.display="block";
+                count.textContent = "+"+sNum.value;
+                console.log("식 갯수:"+sNum.value);
+            }else {
+                count.style.display="none";
+            }
+
+
+            companyRD.textContent = companyD.value;
+            serialRD.textContent = serialRIn;
+            droneRD.textContent = dSerialIn;
+            bindingRD.textContent =binding.value;
+            controllerRD.textContent= controllerRIn;
+            batteryRD.textContent = batteryR;
+            chargerRD.textContent = bcR;
+            gimbalRD.textContent = gimbal.value+"-"+date+String(gimbalN+1).padStart(4, '0');
+            tabletRD.textContent = tablet.value;
+            boardRD.textContent = board.value;
+            firmRD.textContent = "FC:"+fc.value+" RC:"+rc.value+" GCS:"+gcs.value;
+            manualRD.textContent = manual.value;
+            noteRD.textContent = note.value;
+            if(rtk.value!="x"){
+                rtkRD.textContent = rtk.value;
+            }else {
+                rtkRD.textContent = "x"
+            }
+            if(key.value!="x"){
+                keyRD.textContent = key.value;
+            }else {
+                keyRD.textContent = "x"
+            }
+
+        }
+
+    }
+    function cancelResult(){
+        settingD.style.display="block";
+        resultD.style.display="none";
+        saveD.style.display="none";
+    }
+
+    function sendData(){
+        var data ={
+            serial : serialRD.textContent,
+            drone : droneRD.textContent,
+            binding : bindingRD.textContent,
+            controller: controllerRD.textContent,
+            battery : batteryRD.textContent,
+            charger : chargerRD.textContent,
+            gimbal : gimbalRD.textContent,
+            tablet : tabletRD.textContent,
+            rtk : rtkRD.textContent,
+            note : noteRD.textContent,
+            keyInput : keyRD.textContent,
+            board : boardRD.textContent,
+            firmware: firmRD.textContent,
+            manual : manualRD.textContent,
+            company : companyRD.textContent,
+            input : date2,
+            output : output.value,
+            sNum : parseInt(sNum.value)
+        }
+        var currentURL = window.location.href;
+        fetch(currentURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => {
+                // 서버 응답 처리
+                console.log('서버 응답:', response);
+                if (response.redirected) {
+                    // 리다이렉트가 발생한 경우
+                    console.log('리다이렉트 URL:', response.url);
+                    window.location.href = response.url; // 리다이렉트할 URL로 변경
+                }
+            })
+            .catch(error => {
+                // 오류 처리
+                console.error('오류 발생:', error);
+            });
+    }
+
+    function getCurrentDate() {
+        var currentDate = new Date();
+        var year = currentDate.getFullYear().toString().slice(-2);// 년도
+        var month = currentDate.getMonth() + 1; // 월 (0부터 시작하므로 1을 더함)
+
+        // 월과 일이 한 자리 숫자인 경우 앞에 0을 추가하여 두 자리로 만듭니다.
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        // "yyyy-mm-dd" 형식으로 날짜를 반환
+        return year+ month
+    }
+    function getCurrentDate2() {
+        var currentDate = new Date();
+        var year = currentDate.getFullYear(); // 년도
+        var month = currentDate.getMonth() + 1; // 월 (0부터 시작하므로 1을 더함)
+        var day = currentDate.getDate(); // 일
+
+        // 월과 일이 한 자리 숫자인 경우 앞에 0을 추가하여 두 자리로 만듭니다.
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        // "yyyy-mm-dd" 형식으로 날짜를 반환
+        return year + "-" + month + "-" + day;
+    }
+
+</script>
+</body>
+</html>

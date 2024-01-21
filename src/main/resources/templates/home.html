@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/img/background.png');
+            background-size: cover; /* 이미지가 화면을 덮도록 설정합니다. */
+            background-repeat: no-repeat; /* 이미지 반복을 비활성화합니다. */
+            background-attachment: fixed; /* 스크롤 시 이미지가 고정되도록 설정합니다. */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" style="max-width: 100%">
+    <img src="/img/logo.png" alt="Logo" width="90" height="40" >
+    <div class="py-5 text-center">
+        <h1 style="color: white;font-weight: bold">
+            <br><br><br><br>
+            두시텍 고객 문의 관리 시스템</h1>
+    </div>
+    <br><br><br><br><br><br><br><br>
+    <div class="row" style="position: relative;">
+        <div class="col">
+            <button class="btn btn-secondary btn-lg" type="button"style="width: 10%; position: absolute;top: 50%;left: 38%;margin: -25px 0 0 -25px;float: left;border-radius: 20px;background-color: #0a53be; border-color:#0a53be "
+                    th:onclick="|location.href='@{/members/add}'|">
+                회원 가입
+            </button>
+        </div>
+        <div class="col">
+            <button class="btn btn-dark btn-lg" onclick="location.href='items.html'"style="width: 10%; position: absolute;top: 50%;left: 54%;margin: -25px 0 0 -25px;border-radius: 20px;background-color: #0a53be; border-color:#0a53be"
+                    th:onclick="|location.href='@{/login}'|" type="button">
+                로그인
+            </button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+</div> <!-- /container -->
+
+</body>
+</html>

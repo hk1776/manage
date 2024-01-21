@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      </ul>
+      <a id="dronePage" href="/drone">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+      </a>
+      <a id="inquiryPage" href="/items">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+      </a>
+      <a id="asPage" href="/as">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+      </a>
+      <a id="deliveryPage" href="/delivery">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+      </a>
+      <a id="flightPage" href="/flight">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+      </a>
+
+
+      <a id="adminPage" href="/members/admin">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+      </a>
+      <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+      <a href="/members/info">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+      </a>
+      <div style="float: right;margin-right: 8px;color: black">|</div>
+      <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+      <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+    </div>
+  </div>
+  </div>
+</nav>
+<h2 style="margin-left: 2%;margin-top:1%;font-weight: bold;float: left">MyPage</h2>
+<div style="float: right;width:6%;margin-top: 1%;margin-right: 1%">
+  <form th:action="@{/logout}" method="post">
+    <button class="w-100 btn btn-dark btn-lg" onclick="location.href='items.html'" type="submit">
+      로그아웃
+    </button>
+  </form>
+</div>
+
+<div class="container" style="max-width: 70%;margin-top:10%">
+  <div style="height: 300px;border-radius: 10px;border: 1px solid #cecece;">
+    <div style="float: left;margin-top: 1.5%">
+      <img src="/img/profile-user.png" alt="Logo" width="250" height="250" class="d-inline-block align-text-center">
+    </div>
+    <div style="margin-top: 3%;margin-left:7%;float: left">
+      <h4 style="margin-right: 5px;margin-left: 8px;color: black" th:text="|${member.name}|">로그인 사용자 이름</h4>
+      <h5 style="margin-right: 5px;margin-left: 8px;color: black;margin-top: 40px">직책</h5>
+      <h5 style="margin-right: 5px;margin-left: 8px;color: black">이메일</h5>
+      <h5 style="margin-right: 5px;margin-left: 8px;color: black">내선번호</h5>
+    </div>
+    <div style="margin-top: 3%;margin-left:7%;float: left">
+      <h4 style="margin-right: 5px;margin-left: 8px;color: black">&nbsp; </h4>
+      <h5 style="margin-right: 5px;margin-left: 8px;color: black; margin-top: 40px" th:text="|${member.position}|">로그인 사용자 직책</h5>
+      <h5 style="margin-right: 5px;margin-left: 8px;color: black" th:text="|${member.email}|">로그인 사용자 이메일</h5>
+      <h5 style="margin-right: 5px;margin-left: 8px;color: black" th:text="|${member.call}|">로그인 사용자 내선번호</h5>
+    </div>
+    <div style="margin-left:50px;height:90%;float: left;border-left: 2px solid #b7b5b5;margin-top: 1%">
+    </div>
+    <div  style="margin-top: 8%;float: left">
+      <h4 style="margin-right: 5px;margin-left: 8px;color: black">시스템 등급 : </h4>
+      <h4 style="margin-right: 5px;margin-left: 8px;color: black;margin-top: 20px">담당 문의 사항: </h4>
+    </div>
+    <div  style="margin-top: 8%;float: left">
+      <h4 style="margin-right: 5px;margin-left: 8px;color: black"th:text="|${rank}|"> 게스트</h4>
+      <h4 style="margin-right: 5px;margin-left: 8px;color: black;margin-top: 20px" th:text="|${itemLen}|">00</h4>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="max-width: 70%;margin-top:1%">
+  <h5 style="margin-top:5%;font-weight: bold">담당 문의 리스트</h5>
+  <hr class="my-4">
+  <div>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>No.</th>
+        <th>날짜</th>
+        <th>기관명/업체명</th>
+        <th>고객/담당자 성함</th>
+        <th>분류</th>
+        <th>문의 제품</th>
+        <th>상태</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${items}"th:onclick="|location.href='@{/items/{itemId}(itemId=${item.id})}'|">
+        <td th:text="${item.id}">No.</td>
+        <td th:text="${item.date}">날짜</td>
+        <td th:text="${item.company}">기관명/업체명</td>
+        <td th:text="${item.customer}">고객/담당자 성함</td>
+        <td th:text="${item.type}">분류</td>
+        <td th:text="${item.itemName}">문의 제품</td>
+        <td>
+          <div style="background-color: #009432;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.complete} == true" th:text="${item.complete ? '완료' : '진행중'}"></div>
+          <div style="background-color: #d63031;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.complete} == false"th:text="${item.complete ? '완료' : '진행중'}"></div>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <nav aria-label="Page navigation example ">
+    <ul class="pagination justify-content-center"th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})">
+      <li th:if="${start > 1}">
+        <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/members/info(page=0)}'|">
+          <img style="width: 20px;height: 20px" src="/img/startPage.png"/>
+        </button>
+      </li>
+      <li th:if="${start > 1}">
+        <button style="background-color:transparent; border:none;" th:onclick="|location.href='@{/members/info(page=${start - maxPage})}'|">
+          <img style="width: 20px;height: 20px" src="/img/previous.png"/>
+        </button>
+      </li>
+
+      <li style="margin-left: 10px;margin-right: 10px;margin-top: 2px" th:each="page: ${#numbers.sequence(start, end)}">
+        <a  th:text="${page}" th:href="@{/members/info(page=${page - 1})}" th:style="${page == thisP ? 'border: 2px solid #0d6efd; border-radius: 5px;padding: 2px; ' : ''}" ></a>
+      </li>
+
+      <li th:if="${end < items.totalPages}">
+        <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/members/info(page=${start + maxPage})}'|">
+          <img style="width: 20px;height: 20px" src="/img/next.png"/>
+        </button>
+      </li>
+      <li th:if="${end < items.totalPages}">
+        <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/members/info(page=${items.totalPages - 1})}'|">
+          <img style="width: 20px;height: 20px" src="/img/endPage.png"/>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</div> <!-- /container -->
+<script>
+  var admin = document.getElementById("adminPage");
+  var admin2 = document.getElementById("adminPage2");
+  /*<![CDATA[*/
+  var rank = "[[${member.rank}]]";
+  console.log(rank);
+  if(rank !="admin"){
+    admin.style.display = "none";
+    admin2.style.display = "none";
+  }
+
+  /*]]>*/
+</script>
+</body>
+</html>

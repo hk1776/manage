@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>멤버 업데이트</h2>
+    </div>
+
+    <form action="adminPage.html" th:action th:object="${member}" method="post">
+        <div>
+            <label for="id">No.</label>
+            <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
+        </div>
+        <div>
+            <label for="name">이름</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" readonly>
+        </div>
+        <div>
+            <label for="position" >직급</label>
+            <select class="form-control" id="position" th:field="*{position}">
+                <option value="이사">이사</option>
+                <option value="차장">차장</option>
+                <option value="본부장">본부장</option>
+                <option value="책임연구원">책임연구원</option>
+                <option value="선임연구원">선임연구원</option>
+                <option value="과장">과장</option>
+                <option value="대리">대리</option>
+                <option value="사원">사원</option>
+                <option value="인턴">인턴</option>
+            </select>
+        </div>
+        <div>
+            <label for="loginId">ID</label>
+            <input type="text" id="loginId" th:field="*{loginId}" class="form-control">
+        </div>
+        <div>
+            <label for="password">PW</label>
+            <input type="text" id="password" th:field="*{password}" class="form-control">
+        </div>
+        <div>
+            <label for="rank" >등급</label>
+            <select class="form-control" id="rank" th:field="*{rank}">
+                <option value="admin">관리자</option>
+                <option value="normal">일반</option>
+                <option value="guest">게스트</option>
+            </select>
+        </div>
+        <div>
+            <label for="email">E-mail</label>
+            <input type="text" id="email" th:field="*{email}" class="form-control">
+        </div>
+        <div>
+            <label for="call">내선번호</label>
+            <input type="text" id="call" th:field="*{call}" class="form-control">
+        </div>
+        <hr class="my-4">
+
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='adminPage.html'"
+                        th:onclick="|location.href='@{/members/admin}'|"
+                        type="button" th:text="#{button.cancel}">취소</button>
+            </div>
+        </div>
+    </form>
+
+</div> <!-- /container -->
+</body>
+</html>

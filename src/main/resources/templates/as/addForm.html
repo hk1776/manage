@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a id="dronePage" href="/drone">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+            </a>
+            <a id="inquiryPage" href="/items">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+            </a>
+            <a id="asPage" href="/as">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+            </a>
+            <a id="deliveryPage" href="/delivery">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+            </a>
+            <a id="flightPage" href="/flight">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+            </a>
+
+
+            <a id="adminPage" href="/members/admin">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+            </a>
+            <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+            <a href="/members/info">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+            </a>
+            <div style="float: right;margin-right: 8px;color: black">|</div>
+            <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+            <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div class="container"style="max-width: 40%">
+
+    <div class="py-5 text-center">
+        <h2>A/S 등록</h2>
+    </div>
+
+    <form action="asItem.html" th:action th:object="${as}" method="post">
+
+        <div>
+            <div style="float: left;width: 48%;margin-right: 2%">
+                접수/입고일
+                <div type="text" id="date"class="form-control"></div>
+            </div>
+
+            <div style="width: 48%;float:left;margin-left: 2%">
+                출고 예정일
+                    <p><input class="form-control"type="date" th:field="*{output}"></p>
+            </div>
+        </div>
+        <div style="margin-bottom: 3%">
+            <label for="company">기관명/업체명</label>
+            <input type="text" id="company" th:value="*{company}" class="form-control"readonly>
+
+        </div>
+
+        <div style="margin-bottom: 3%">
+            <label for="serial">식 시리얼</label>
+            <input type="text" id="serial" th:value="*{serial}" class="form-control" readonly>
+        </div>
+        <div style="margin-bottom: 3%">
+            <label for="type" >A/S 품목</label>
+            <input type="text" id="type" th:value="*{item}" th:field="*{item}" class="form-control" readonly>
+        </div>
+
+
+        <hr class="my-4">
+
+        <div class="row"style="margin-bottom: 200px">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='items.html'"
+                        th:onclick="|location.href='@{/as}'|"
+                        type="button" th:text="#{button.cancel}">취소</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"></script>
+<script>
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+    /*<![CDATA[*/
+
+    var rank = "[[${member.rank}]]";
+    var id = [[${member.id}]];
+
+    if(rank != "admin"){
+        admin.style.display = "none";
+        admin2.style.display = "none";
+    }
+    /*]]>*/
+    // 현재 날짜를 가져오는 JavaScript 함수
+    function getCurrentDate() {
+        var currentDate = new Date();
+        var year = currentDate.getFullYear(); // 년도
+        var month = currentDate.getMonth() + 1; // 월 (0부터 시작하므로 1을 더함)
+        var day = currentDate.getDate(); // 일
+
+        // 월과 일이 한 자리 숫자인 경우 앞에 0을 추가하여 두 자리로 만듭니다.
+        if (month < 10) {
+            month = "0" + month;
+        }
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        // "yyyy-mm-dd" 형식으로 날짜를 반환
+        return year + "-" + month + "-" + day;
+    }
+
+    // 페이지가 로드될 때 자동으로 현재 날짜를 표시
+    window.onload = function() {
+        var date = document.getElementById("date");
+        date.innerHTML = getCurrentDate();
+    };
+
+
+</script>
+</body>
+</html>

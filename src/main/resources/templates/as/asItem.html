@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset='utf-8' />
+  <!-- 화면 해상도에 따라 글자 크기 대응(모바일 대응) -->
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <!-- jquery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- fullcalendar CDN -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+  <!-- fullcalendar 언어 CDN -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* body 스타일 */
+    html, body {
+      font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+      font-size: 14px;
+    }
+    /* 캘린더 위의 해더 스타일(날짜가 있는 부분) */
+    .fc-header-toolbar {
+      padding-top: 1em;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+    .container {
+      max-width: 560px;
+    }
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+    </a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      </ul>
+      <a id="dronePage" href="/drone">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+      </a>
+      <a id="inquiryPage" href="/items">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+      </a>
+      <a id="asPage" href="/as">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+      </a>
+      <a id="deliveryPage" href="/delivery">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+      </a>
+      <a id="flightPage" href="/flight">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+      </a>
+
+
+      <a id="adminPage" href="/members/admin">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+      </a>
+      <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+      <a href="/members/info">
+        <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+      </a>
+      <div style="float: right;margin-right: 8px;color: black">|</div>
+      <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+      <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+    </div>
+  </div>
+  </div>
+</nav>
+<!-- calendar 태그 -->
+<div style="text-align: left; margin-top:2%;margin-left :10%">
+  <h2 style="font-weight: bold;float: left">A/S 관리</h2>
+  <div style="float: right;margin-right: 10%;border:2px solid black; padding: 10px;border-radius: 8px">
+      <div style="float: left">
+        <div>기관명 : </div>
+        <div>A/S 품목 :</div>
+        <div>진행 상태 :</div>
+        <div>식 시리얼:</div>
+      </div>
+      <div style="float: left">
+        <div  th:text="|${item.company}|">기관명</div>
+        <div  th:text="|${item.item}|">A/S 품목</div>
+        <div th:text="|${item.status}|">진행 상태</div>
+        <div  th:text="|${item.serial}|">진행 상태</div>
+      </div>
+
+      <div style="float: left;margin-left: 50px">
+        <div style="float: left">
+          <div>접수/입고일 : </div>
+          <div>출고 예정일 :</div>
+          <div id = "endTDiv" style="display: none">출고일 :</div>
+          <div th:if="${item.delay != 'x'}" th:style="${item.delay != 'x' ? '' : 'display: none;'}"> 지연 사유 :</div>
+        </div>
+        <div style="float: left">
+          <div th:text="|${item.input}|">접수/입고일</div>
+          <div id = "outPutDiv" th:text="|${item.output}|">출고 예정일</div>
+          <div id = "endDiv"></div>
+          <div th:if="${item.delay != 'x'}" th:style="${item.delay != 'x' ? '' : 'display: none;'}">
+            <div th:text="${item.delay}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div id='calendar-container' style="display: flex;justify-content : center;margin-top: 180px;margin-bottom: 5%"  >
+  <div id='calendar' style="width: 80%; margin-top: 2%"></div>
+</div>
+<script>
+  var endDiv  = document.getElementById("endDiv");
+  var endTDiv  = document.getElementById("endTDiv");
+  var outPutDiv  = document.getElementById("outPutDiv");
+  var json;
+  var currentURL = window.location.href;
+  var admin = document.getElementById("adminPage");
+  var admin2 = document.getElementById("adminPage2");
+  /*<![CDATA[*/
+
+  var rank = "[[${member.rank}]]";
+  var id = [[${member.id}]];
+
+  if(rank != "admin"){
+    admin.style.display = "none";
+    admin2.style.display = "none";
+  }
+  /*]]>*/
+
+  // AJAX 요청 보내기
+  $.ajax({
+    url: currentURL+"/cal",
+    dataType: 'json',
+    success: function(data) {
+      // JSON 데이터를 변수에 저장
+      console.log(data);
+      console.log(data.title)
+      json = data;
+      // 이 시점부터 jsonData 변수에 JSON 데이터가 저장되어 있습니다.
+      calender();
+    },
+    error: function() {
+      // 에러 처리
+      console.log("데이터를 불러오는 중 오류가 발생했습니다.");
+    }
+  });
+var calender = function(){
+    var end1 = new Date(json.end);
+    var output1 = new Date(json.outPut);
+    var result;
+
+    if(end1<output1){
+     result  = [{"title":json.title,"start":json.startJ,"end":end1}]
+    }else {
+     result  = [{"title":json.title,"start":json.startJ,"end":output1}]
+    }
+    var jsonArray = json.stats;
+
+    var over =[];
+  for (var i = 0; i < jsonArray.length; i++) {
+      var item = jsonArray[i];
+    console.log("title:"+item.sStat+"start:"+item.sDate+"T12:00:00")
+      result.push({"title":item.sStat,"start":item.sDate+"T12:00:00","color":"#000000","textColor":"#000000"})
+
+    var end = new Date(json.outPut);
+    var real = new Date(item.sDate);
+
+    //end.setDate(end.getDate()-1)
+    console.log("출고지연 테스트 : "+end+"/"+real)
+    console.log(end<real)
+      if(end <real){
+        console.log("출고지연");
+        over.push(item.sDate);
+      }
+  }
+  var overStart = new Date(end);
+  overStart.setDate(overStart.getDate()+1);
+  console.log(over.length+","+over[0]+","+over[over.length-1]);
+  console.log("/출고 지연날짜 :"+over.length)
+    if(over.length>0){//해당 부분 납품에도 넣기
+      var resultDate = new Date(over[over.length-1]);
+      console.log("변환"+resultDate+"/출고 지연날짜 :"+overStart)
+
+      result.push({"title":"출고지연","start":overStart,"end":resultDate,"color":"#f12424"})
+    }
+
+
+  var toolbars  = {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'custom'
+  }
+
+  if(rank == "guest") {
+    toolbars = {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'custom2'
+    }
+  }
+  if (item.sStat!=null||item.sStat!=""){
+    if(item.sStat==="출고"){
+      end1.setDate(end1.getDate()-1);
+      endDiv.textContent =formatDate(end1);
+      endTDiv.style.display="block";
+      endDiv.style.display = "block";
+      console.log("출고상태");
+      toolbars  = {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'custom2'
+      }
+    }
+  }
+
+    $(function(){
+      // calendar element 취득
+      var calendarEl = $('#calendar')[0];
+
+      // full-calendar 생성하기
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        height: '700px', // calendar 높이 설정
+        expandRows: true, // 화면에 맞게 높이 재설정
+        slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+        slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+        displayEventTime: false,
+        // 해더에 표시할 툴바
+        headerToolbar: toolbars,
+        customButtons: {
+          custom: {
+            text: '업데이트',
+            click: function() {
+              window.location.href = currentURL+"/edit";
+            },
+            custom2: {
+              text: '업데이트',
+              click: function () {
+                alert('이미 출고된 상태입니다.');
+              },
+            }
+          }
+        },
+        initialDate: json.startJ, // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)// 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+        nowIndicator: true, // 현재 시간 마크
+        dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+        locale: 'ko', // 한국어 설정
+        eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
+          console.log(obj);
+        },
+        eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+          console.log(obj);
+        },
+        eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+          console.log(obj);
+        },
+        // 이벤트
+        events: result
+      });
+      // 캘린더 랜더링
+      calendar.render();
+    });
+  };
+
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로 패딩
+    const day = date.getDate().toString().padStart(2, '0'); // 일도 두 자리로 패딩
+
+    return `${year}-${month}-${day}`;
+  }
+</script>
+</body>
+</html>

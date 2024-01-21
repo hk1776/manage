@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>문의 업데이트</h2>
+    </div>
+    <button id="deleteBtn" style="float:right;background-color: #f12424;color:#ffffff; border-radius: 10px;width: auto;height: 28px;border: 0px solid #000000;"onclick="deleteF()">
+      삭제
+    </button>
+    <br>
+    <form action="item.html" th:action th:object="${item}" method="post">
+
+        <div>
+            <label for="id">No.</label>
+            <input type="text" id="id" th:field="*{id}" class="form-control" readonly>
+        </div>
+        <div>
+            <label for="date">날짜</label>
+            <input type="text" id="date" th:field="*{date}"
+                   th:errorclass="field-error" class="form-control" readonly>
+        </div>
+        <div>
+            <label for="company">기관명/업체명</label>
+            <input type="text" id="company" th:field="*{company}"
+                   th:errorclass="field-error" class="form-control" placeholder="기관/업체명을 입력하세요">
+        </div>
+
+        <div th:if="*{not #strings.isEmpty(serial)}">
+            <label for="serial">식 시리얼</label>
+            <input type="text" id="serial" th:field="*{serial}" th:value="*{serial}"
+                   th:errorclass="field-error" class="form-control" placeholder="기관/업체명을 입력하세요">
+        </div>
+
+        <div>
+            <label for="customer" >고객/담당자 성함</label>
+            <input type="text" id="customer" th:field="*{customer}" class="form-control">
+        </div>
+        <div>
+            <label for="phone" >전화 번호</label>
+            <input type="text" id="phone" th:field="*{phone}" class="form-control">
+        </div>
+        <div>
+            <label for="type" >분류</label>
+            <input type="text" id="type" th:field="*{type}" class="form-control"readonly>
+        </div>
+        <div>
+            <label for="itemName" >문의 제품</label>
+            <select class="form-control" id="itemName" th:field="*{itemName}">
+                <option value="KnX">KnX</option>
+                <option value="KnX2">KnX2</option>
+                <option value="KnX2-D">KnX2-D</option>
+                <option value="GCS(태블릿)">GCS(태블릿)</option>
+            </select>
+        </div>
+        <div>
+            <label for="detail" >문의 내용</label>
+            <input type="text" id="detail" th:field="*{detail}" class="form-control">
+        </div>
+        <div>
+            <label for="solution" >해결방안(회신 내용)</label>
+            <input type="text" id="solution" th:field="*{solution}" class="form-control">
+        </div>
+        <div>
+            <label for="manager" >문의 담당자</label>
+            <select class="form-control" id="manager" th:field="*{manager}">
+                <option th:each="member : ${simples}" th:value="${member.id}" th:text="${member.name}">
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="complete" >해결 완료</label>
+            <select class="form-control" id="complete" th:field="*{complete}">
+                <option value="true">o</option>
+                <option value="false">x</option>
+            </select>
+        </div>
+        <hr class="my-4">
+
+        <div class="row" style="margin-bottom: 100px">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        onclick="location.href='item.html'"
+                        th:onclick="|location.href='@{/items/{itemId}(itemId=${item.id})}'|"
+                        type="button" th:text="#{button.cancel}">취소</button>
+            </div>
+        </div>
+    </form>
+
+</div> <!-- /container -->
+<script>
+    var id;
+    /*<![CDATA[*/
+    id = [[${item.id}]];
+
+    /*]]>*/
+    function deleteF() {
+        if (confirm('해당 문의를 삭제하시겠습니까?')) {
+            window.location.href = '/items/delete/'+id; // 이동할 URL을 여기에 입력하세요
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .banner{
+            background: url("/img/banner2.png");
+        }
+    </style>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a id="dronePage" href="/drone">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+            </a>
+            <a id="inquiryPage" href="/items">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+            </a>
+            <a id="asPage" href="/as">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+            </a>
+            <a id="deliveryPage" href="/delivery">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+            </a>
+            <a id="flightPage" href="/flight">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+            </a>
+
+
+            <a id="adminPage" href="/members/admin">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+            </a>
+            <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+            <a href="/members/info">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+            </a>
+            <div style="float: right;margin-right: 8px;color: black">|</div>
+            <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+            <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div class="banner" style="text-align: left; padding-top:4%;padding-left:15%;height: 200px;">
+    <h2 style="font-weight: bold;float: left;color: white">A/S 일정관리</h2>
+    <div style="float: right;margin-right: 15%;width: 200px">
+        <div style="font-weight: bold;font-size: 15px;color: white">융합항법 사업부</div>
+        <div style="font-size: 15px;color: white;float: left">담당자 :&nbsp</div>
+        <div style="font-size: 15px;color: white" id="asM"></div>
+        <div style="font-size: 15px;color: white;float: left">서브 담당자 :&nbsp</div>
+        <div style="font-size: 15px;color: white" id="asS"></div>
+    </div>
+</div>
+
+<div class="container" style="max-width: 70%;margin-top:2%">
+
+    <form th:object="${itemSearch}" method="get" class="form-inline">
+        <div class="row">
+            <div class="col">
+
+                <div  style="width: auto;float:left;margin-right: 20px">
+                    <select class="form-select" th:field="*{select}" id= "select" style="margin: auto">
+                        <option value="1">기관명/업체명</option>
+                        <option value="2">A/S품목</option>
+                        <option value="3">접수/입고일</option>
+                        <option value="4">출고 예정일</option>
+                        <option value="5">상태</option>
+                    </select>
+                </div>
+                <div id="itemNameDiv"  style="width: auto;margin-bottom:16px;display: none;float:left; ">
+                    <select class="form-select" id="itemName" th:field="*{itemName}"style="margin: auto">
+                        <option value=" ">전체</option>
+                        <option value="KnX">KnX</option>
+                        <option value="KnX2">KnX2</option>
+                        <option value="KnX2-D">KnX2-D</option>
+                        <option value="GCS(태블릿)">GCS(태블릿)</option>
+                    </select>
+                </div>
+
+                <div id="inputDiv" style="width: auto;float:left;display: none;">
+                    <p><input id="input" class="form-control"type="month" th:field="*{input}"></p>
+                </div>
+                <div id="outputDiv" style="width: auto;float:left;display: none;">
+                    <p><input id="output" class="form-control"type="month" th:field="*{output}"></p>
+                </div>
+
+                <div id="companyDiv" style="width: auto;margin-bottom:16px;display: block;float:left">
+                    <input id="company" type="text" th:field="*{company}" class="form-control" placeholder="업체명을 입력하세요"/>
+                </div>
+                <div  id="statusDiv" style="width: auto;float:left;display: none">
+                    <select class="form-select" id="statusValue" th:field="*{status}">
+                        <option value=" ">전체</option>
+                        <option value="0">A/S 접수</option>
+                        <option value="1">LOG 분석&원인파악</option>
+                        <option value="2">1차 수리</option>
+                        <option value="3">1차 비행테스트</option>
+                        <option value="4">2차 수리</option>
+                        <option value="5">2차 비행테스트</option>
+                        <option value="6">3차 수리</option>
+                        <option value="7">3차 비행테스트</option>
+                        <option value="8">배송준비</option>
+                        <option value="9">출고</option>
+                    </select>
+                </div>
+                <div class="col" style="width: auto;margin-left: 10px;float:left">
+                    <button type="submit" class="btn btn-secondary mb-2">검색</button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>No.</th>
+                <th>기관명/업체명</th>
+                <th>A/S 품목</th>
+                <th>접수/입고일</th>
+                <th>출고 예정일</th>
+                <th>상태</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${items}"th:if="${member.rank} != 'guest'" th:onclick="|location.href='@{/as/{itemId}(itemId=${item.id})}'|">
+                <td th:text="${item.id}">No.</td>
+                <td th:text="${item.company}">기관명/업체명</td>
+                <td th:text="${item.item}">A/S 품목</td>
+                <td th:text="${item.input}">접수/입고일</td>
+                <td th:text="${item.output}">출고 예정일</td>
+                <td>
+                    <div style="background-color: #d63031;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.status} == 'A/S 접수'" th:text="${item.status}"></div>
+                    <div style="background-color: #009432;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.status} == '출고'"th:text="${item.status}"></div>
+                    <div style="background-color: #6c5ce7;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.status} != '출고' and ${item.status} != 'A/S 접수'" th:text="${item.status}"></div>
+                </td>
+            </tr>
+            <tr th:each="item : ${items}"th:if="${member.rank} == 'guest'">
+                <td th:text="${item.id}">No.</td>
+                <td th:text="${item.company}">기관명/업체명</td>
+                <td th:text="${item.item}">A/S 품목</td>
+                <td th:text="${item.input}">접수/입고일</td>
+                <td th:text="${item.output}">출고 예정일</td>
+                <td>
+                    <div style="background-color: #d63031;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.status} == 'A/S 접수'" th:text="${item.status}"></div>
+                    <div style="background-color: #009432;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.status} == '출고'"th:text="${item.status}"></div>
+                    <div style="background-color: #6c5ce7;border-radius: 15px;width: auto;height: auto;float:left;margin-right: 10px;color:white;padding: 3px 6px;font-size: 13px" th:if="${item.status} != '출고' and ${item.status} != 'A/S 접수'" th:text="${item.status}"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <nav aria-label="Page navigation example ">
+    <ul class="pagination justify-content-center" th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})">
+        <li th:if="${start > 1}">
+            <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/as(page=0)}'|">
+                <img style="width: 20px;height: 20px" src="/img/startPage.png"/>
+            </button>
+        </li>
+        <li th:if="${start > 1}">
+            <button style="background-color:transparent; border:none;" th:onclick="|location.href='@{/as(page=${start - maxPage})}'|">
+                <img style="width: 20px;height: 20px" src="/img/previous.png"/>
+            </button>
+        </li>
+
+        <li style="margin-left: 10px;margin-right: 10px;margin-top: 2px" th:each="page: ${#numbers.sequence(start, end)}">
+            <a  th:text="${page}" th:href="@{/as(select = ${itemSearch.getSelect()},itemName = ${itemSearch.getItemName()},input = ${itemSearch.getInput()},output = ${itemSearch.getOutput()},company = ${itemSearch.getCompany()},status = ${itemSearch.getStatus()}, page=${page - 1})}" th:style="${page == thisP ? 'border: 2px solid #0d6efd; border-radius: 5px;padding: 2px; ' : ''}" ></a>
+        </li>
+
+        <li th:if="${end < items.totalPages}">
+            <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/as(page=${start + maxPage})}'|">
+                <img style="width: 20px;height: 20px" src="/img/next.png"/>
+            </button>
+        </li>
+        <li th:if="${end < items.totalPages}">
+            <button  style="background-color:transparent; border:none;" th:onclick="|location.href='@{/as(page=${items.totalPages - 1})}'|">
+                <img style="width: 20px;height: 20px" src="/img/endPage.png"/>
+            </button>
+        </li>
+    </ul>
+    </nav>
+</div>
+<script th:inline="javascript">
+    var button = document.getElementById("addBtn");
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+    var currentURL = window.location.href;
+    /*<![CDATA[*/
+
+    var rank = [[${member.rank}]];
+    if(rank === "guest"){
+        button.style.display = "none";
+    }
+    if(rank !="admin"){
+        admin.style.display = "none";
+        admin2.style.display = "none";
+    }
+
+    /*]]>*/
+
+    var select = document.getElementById("select");
+    var itemNameD = document.getElementById("itemNameDiv");
+    var typeD = document.getElementById("inputDiv");
+    var companyD = document.getElementById("companyDiv");
+    var completeD = document.getElementById("outputDiv");
+    var statusD = document.getElementById("statusDiv");
+
+    var itemName = document.getElementById("itemName");
+    var type = document.getElementById("input");
+    var company = document.getElementById("company");
+    var complete = document.getElementById("output");
+    var statusV = document.getElementById("statusValue");
+
+
+    itemName.value= " ";//2
+    type.value= "";//3
+    company.value= "";//1
+    complete.value="";//4
+    statusV.value=" ";
+    select.value = "1";
+
+    select.addEventListener("change",function (){
+        var selectedValue = select.value;
+
+        if (selectedValue === "1") {
+            itemNameD.style.display = "none";
+            typeD.style.display = "none";
+            companyD.style.display = "block";
+            completeD.style.display = "none";
+            statusD.style.display = "none";
+            statusV.value=" ";
+            type.value= "";
+            itemName.value= " ";
+            complete.value= "";
+        }else if (selectedValue === "2") {
+            itemNameD.style.display = "block";
+            typeD.style.display = "none";
+            companyD.style.display = "none";
+            completeD.style.display = "none";
+            statusD.style.display = "none";
+            statusV.value=" ";
+            type.value= "";
+            company.value= "";
+            complete.value= "";
+        }else if (selectedValue === "3") {
+            itemNameD.style.display = "none";
+            typeD.style.display = "block";
+            companyD.style.display = "none";
+            completeD.style.display = "none";
+            statusD.style.display = "none";
+            statusV.value=" ";
+            itemName.value= " ";
+            company.value= "";
+            complete.value= "";
+        }else if (selectedValue === "4") {
+            itemNameD.style.display = "none";
+            typeD.style.display = "none";
+            companyD.style.display = "none";
+            completeD.style.display = "block";
+            statusD.style.display = "none";
+            statusV.value=" ";
+            itemName.value= " ";
+            type.value= "";
+            company.value= "";
+        }
+        else if (selectedValue === "5") {
+            itemNameD.style.display = "none";
+            typeD.style.display = "none";
+            companyD.style.display = "none";
+            completeD.style.display = "none";
+            statusD.style.display = "block";
+
+            itemName.value= " ";
+            type.value= "";
+            company.value= "";
+            complete.value="";
+        }
+    });
+    var asM = document.getElementById("asM");
+    var asS = document.getElementById("asS");
+    var jsonR;
+    const url = new URL(currentURL);
+
+    // 쿼리 문자열 제거
+    url.search = '';
+
+    // 쿼리 없는 새로운 URL 문자열 생성
+    const newURL = url.toString();
+
+    $.ajax({
+        url: newURL+"/role",
+        dataType: 'json',
+        success: function(data) {
+            // JSON 데이터를 변수에 저장
+            console.log(data);
+            console.log(data.title)
+            jsonR = data;
+            asM.textContent = jsonR.main;
+            asS.textContent = jsonR.serve;
+
+        },
+        error: function() {
+            // 에러 처리
+            console.log("데이터를 불러오는 중 오류가 발생했습니다.");
+        }
+    });
+
+</script>
+</body>
+</html>

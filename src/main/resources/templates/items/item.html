@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1vb">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        #memo{
+            position: fixed;
+            float: right;
+            right: 100px;
+            top: 26.5%;
+            width: 300px;
+            padding: 0 10px 10px;
+            border: 1px solid #ccc;
+            background: #ffffff;
+            text-align: left;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm navbar-dark " style="border-bottom:2px solid #dcdbdb;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/img/logo.png" alt="Logo" width="90" height="40" class="d-inline-block align-text-center">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <a id="dronePage" href="/drone">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">드론 관리</div>
+            </a>
+            <a id="inquiryPage" href="/items">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">문의 관리</div>
+            </a>
+            <a id="asPage" href="/as">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">As 관리</div>
+            </a>
+            <a id="deliveryPage" href="/delivery">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 60px;font-size: 20px">납품 관리</div>
+            </a>
+            <a id="flightPage" href="/flight">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black;font-weight: bold; margin-right: 180px;font-size: 20px">비행 일정</div>
+            </a>
+
+
+            <a id="adminPage" href="/members/admin">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">관리자 페이지</div>
+            </a>
+            <div id="adminPage2" style="float: right;margin-right: 8px;color: black">|</div>
+            <a href="/members/info">
+                <div style="float: right;margin-left: 8px;margin-right: 8px; color: black">MyPage</div>
+            </a>
+            <div style="float: right;margin-right: 8px;color: black">|</div>
+            <img src="/img/profile-user.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-center">
+            <div style="float: right;margin-left: 8px;margin-right: 15px; color: black" th:text="|${member.name}|">로그인 사용자 이름</div>
+        </div>
+    </div>
+    </div>
+</nav>
+<div id='memo' style="background-color: #bed8ff">
+    <h3 style="font-size: 16px;argin-top: 0;padding-top: 1em;font-weight: bold">문의 대응 참조 메모/ 비고</h3>
+    <div id="scroll"style="border: 1px solid #ccc; border-radius: 5px;width: 280px;padding: 5px;height: 300px;margin-bottom: 10px;background-color: #ffffff;overflow: auto">
+        <div id ="getMemo">
+
+        </div>
+    </div>
+
+    <form action="item.html" th:action th:object="${memo}" method="post">
+        <label for="content"></label>
+        <textarea type="text" style="height:auto;width: 280px;margin-bottom: 10px" id="content" class="form-control" placeholder="메모 사항을 적어주세요."th:field="*{content}"></textarea>
+        <button type="submit" style="border-radius: 8px;border-color: #0b5ed7; background-color: #0b5ed7;color: #ffffff;outline: none;box-shadow: none;float: right;">저장</button>
+    </form>
+    <button style="border-radius: 8px;border-color: red; background-color: red;color: #ffffff;outline: none;box-shadow: none;float: left;"onclick="delMemo()">삭제</button>
+
+</div>
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>문의 내역</h2>
+        <div id="create">
+            <button id="A/S"  th:onclick="|location.href='@{/as/add?id={id}&company={company}&serial={serial}(id = ${item.id},company=${item.company},serial=${item.serial})}'|" style="border-radius: 8px; background-color: #ff5b69;color: #ffffff;outline: none;box-shadow: none;float: right;padding: 5px;display: none">A/S 일정 생성</button>
+            <button id="deliveryD"  th:onclick="|location.href='@{/drone/add?id={id}(id = ${item.id})}'|" style="border-radius: 8px; background-color: #0b5ed7;color: #ffffff;outline: none;box-shadow: none;float: right;padding: 5px;display: none">드론 납품하기</button>
+            <button id="deliveryP"  th:onclick="|location.href='@{/drone/{serial}/edit?id={id}(serial=${item.serial},id = ${item.id})}'|" style="border-radius: 8px;background-color: #27ad5d;color: #ffffff;outline: none;box-shadow: none;float: right;padding: 5px;display: none">부품 납품하기</button>
+        </div>
+    </div>
+
+
+
+    <div>
+        <label for="id">No.</label>
+        <input type="text" id="id" name="id" class="form-control" value="1" th:value="${item.id}" readonly>
+    </div>
+    <div>
+        <label for="date">날짜</label>
+        <input type="text" id="date" name="date" class="form-control" value="상품A" th:value="${item.date}" readonly>
+    </div>
+    <div>
+        <label for="company">기관명/업체명</label>
+        <input type="text" id="company" name="company" class="form-control" value="10000" th:value="${item.company}" readonly>
+    </div>
+    <div>
+        <label for="customer">고객/담당자 성함</label>
+        <input type="text" id="customer" name="customer" class="form-control" value="10" th:value="${item.customer}" readonly>
+    </div>
+    <div>
+        <label for="phone">전화번호</label>
+        <input type="text" id="phone" name="phone" class="form-control" value="10" th:value="${item.phone}" readonly>
+    </div>
+    <div>
+        <label for="type">분류</label>
+        <input type="text" id="type" name="type" class="form-control" value="10" th:value="${item.type}" readonly>
+    </div>
+    <div>
+        <label for="itemName">문의제품</label>
+        <input type="text" id="itemName" name="itemName" class="form-control" value="10" th:value="${item.itemName}" readonly>
+    </div>
+    <div>
+        <label for="detail">문의 내용</label>
+        <input type="text" id="detail" name="detail" class="form-control" value="10" th:value="${item.detail}" readonly>
+    </div>
+    <div>
+        <label for="solution">해결방안(회신 내용)</label>
+        <input type="text" id="solution" name="solution" class="form-control" value="10" th:value="${item.solution}" readonly>
+    </div>
+
+    <div>
+        <label for="manager">응대 담당자</label>
+        <input type="text" id="manager" name="manager" class="form-control" value="10" th:value="${item.manager}" readonly>
+    </div>
+   <!-- <div>
+        <label for="memo">문의 대응 참조 메모/비고</label>
+        <input type="text" id="memo" name="memo" class="form-control" value="10" th:value="${item.memo}" readonly>
+    </div>-->
+    <div>
+        <label for="complete">해결 완료</label>
+        <input type="text" id="complete" name="complete" class="form-control" value="10" th:value="${item.complete ? 'O' : 'X'}" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="row" style="margin-bottom: 100px">
+        <div id="btn"  class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    onclick="location.href='editForm.html'"
+                    th:onclick="|location.href='@{/items/{itemId}/edit?serial={serial}(itemId=${item.id},serial=${item.serial})}'|"
+                    type="button" >문의 수정</button>
+        </div>
+        <div class="col">
+            <button id="btn2" class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/items}'|"
+                    type="button">취소</button>
+        </div>
+    </div>
+
+</div>
+<script th:inline="javascript">
+    var button = document.getElementById("btn");
+    var button2 = document.getElementById("btn2");
+    var admin = document.getElementById("adminPage");
+    var admin2 = document.getElementById("adminPage2");
+    var getMemo = document.getElementById("getMemo");
+    var scroll = document.getElementById("scroll");
+    var as = document.getElementById("A/S");
+    var deliD = document.getElementById("deliveryD");
+    var deliP = document.getElementById("deliveryP");
+    var create =document.getElementById("create");
+
+    /*<![CDATA[*/
+
+    var rank = [[${member.rank}]];
+    var id = [[${member.name}]];
+    var manager = [[${item.manager}]];
+    var memo = [[${item.memo}]];
+    var type = [[${item.type}]];
+    var serial = [[${item.serial}]];
+    var complete = [[${item.complete}]];
+
+
+    console.log("id:"+id+" manager"+manager)
+
+    if(rank != "admin"){
+        if(id != manager){
+            button.style.display = "none";
+            button2.style.width = "100%";
+           create.style.display="none";
+        }
+        admin.style.display = "none";
+        admin2.style.display = "none";
+    }
+    console.log(complete)
+    if(complete===false){
+        if(type==="A/S"){
+            as.style.display = "block";
+        }
+        if(type ==="납품"){
+            if(serial ===""){
+                deliD.style.display = "block";
+            }else {
+                deliP.style.display = "block"
+            }
+
+        }
+    }
+
+
+    if(memo.length>0){
+        const memoArr = memo.split('{/}');
+        memoArr.forEach(memos => {
+            const memoInfo = memos.split('{,}');
+
+            const writer = document.createElement('div');
+            // 새로운 div 생성
+            const content = document.createElement('div');
+
+            // div에 값 추가
+            writer.textContent = memoInfo[0];
+            content.textContent = memoInfo[1];
+            content.style.width="100%";
+            content.style.padding = "5px";
+            content.style.height="auto";
+            content.style.border = "1px solid #ccc";
+            content.style.borderRadius="8px";
+            content.style.marginBottom = "10px"
+            content.style.backgroundColor="#d9e9ff";
+
+            // div를 container에 추가
+            getMemo.appendChild(writer);
+            getMemo.appendChild(content);
+        });
+    }
+
+    /*]]>*/
+    scroll.scrollTop = scroll.scrollHeight;
+
+    function delMemo(){
+        var currentURL = window.location.href;
+        if (confirm('마지막 메시지를 삭제하시겠습니까?')) {
+            window.location.href = currentURL+"/memoDel";
+        } else {
+
+        }
+    }
+</script>
+</body>
+</html>
