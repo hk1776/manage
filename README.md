@@ -22,8 +22,8 @@
 
 <h3> Tech Stack </h3>
 <div align="left">
-	<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Conda-Forge&logoColor=white" />
-	<img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white" />
+<img src="https://img.shields.io/badge/Java-007396?style=flat&logo=Conda-Forge&logoColor=white" />
+<img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white" />
 	<img src="https://img.shields.io/badge/Gradle-02303A?style=flat&logo=gradle&logoColor=white" />
   <img src="https://img.shields.io/badge/Intellij%20IDE-000000?style=flat&logo=intellijidea&logoColor=white" />
 	<img src="https://img.shields.io/badge/Tomcat-F8DC75?style=flat&logo=ApacheTomcat&logoColor=white" />
@@ -37,4 +37,16 @@
 ### System Requirements
 
 ![1](https://github.com/hk1776/manage/assets/77769783/f70816d8-2a2c-45e3-95c6-7de1e9ae80a4)
+
+
+## 📲Result
+   ### 시스템 구성도
+![2](https://github.com/hk1776/manage/assets/77769783/ba372cce-7ed5-47e4-87ad-f423c14d2809)
+
+![3](https://github.com/hk1776/manage/assets/77769783/10166832-0bc8-4abc-ab7c-477ceb9a09d4)
+
+
+  ### 주요기능
+   - #### 현재 접속중인 드론 리스트
+      - 소켓통신으로 현재 비행중인 드론의 id 기업명 등을 리스트로 표시<br>
 
