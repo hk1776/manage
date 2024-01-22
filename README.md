@@ -41,12 +41,12 @@
 
 ## 📲Result
    ### 시스템 구성도
-![2](https://github.com/hk1776/manage/assets/77769783/ba372cce-7ed5-47e4-87ad-f423c14d2809)
+![2](https://github.com/hk1776/manage/assets/77769783/a73c1d06-bd2d-4e72-a656-ee6300fec49f)
 
-![3](https://github.com/hk1776/manage/assets/77769783/10166832-0bc8-4abc-ab7c-477ceb9a09d4)
+![3](https://github.com/hk1776/manage/assets/77769783/cf4808c9-6d88-435a-a448-e6f2987038a8)
 
 
   ### 주요기능
-   - #### 현재 접속중인 드론 리스트
+   - #### 고객 문의 
       - 소켓통신으로 현재 비행중인 드론의 id 기업명 등을 리스트로 표시<br>
 
