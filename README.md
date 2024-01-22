@@ -35,3 +35,6 @@
 <br>
 
 ### System Requirements
+
+![1](https://github.com/hk1776/manage/assets/77769783/f70816d8-2a2c-45e3-95c6-7de1e9ae80a4)
+
