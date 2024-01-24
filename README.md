@@ -52,7 +52,8 @@
       - 드론 관련 고객 문의 사항을 등록하고 관리하는 페이지이며 문의 게시글의 종류에 따라 각각 다른 처리 방법을 제공한다.<br>
       
 
-https://github.com/hk1776/manage/assets/77769783/934593a6-a70a-455d-8bb8-c4bd3c9d4f7b
+https://github.com/hk1776/manage/assets/77769783/c8d6e920-81e0-4fe9-ab76-b0c17a767501
+
 
 
 <br><br>
@@ -60,9 +61,9 @@ https://github.com/hk1776/manage/assets/77769783/934593a6-a70a-455d-8bb8-c4bd3c9
       - 드론 납품에대한 문의 게시물에서 '드론 납품하기' 버튼을 누를 시 드론 생성 페이지로 이동
       - 드론 생성페이지에서 드론의 옵션과 부품의 버전에 따라 새로운 시리얼 번호 생성<br>
 
-      
 
-https://github.com/hk1776/manage/assets/77769783/59121f71-df8c-4e8c-b7a8-487289594aaf
+https://github.com/hk1776/manage/assets/77769783/cc5b8827-e8c8-4e0f-87cf-27f0d4c7e36d
+
 
 
 <br><br>
@@ -72,7 +73,10 @@ https://github.com/hk1776/manage/assets/77769783/59121f71-df8c-4e8c-b7a8-4872895
       - 부품별로 시리얼 번호가 특정 규칙에 의해 부여되어 있으며 부품 관리 페이지에서는 새로운 부품 시리얼 번호 생성 및 <br> 기존 부품의 시리얼 번호 삭제 가능  <br>
       
 
-https://github.com/hk1776/manage/assets/77769783/20d8a188-7b83-4329-860b-21d081ea33c3
+
+https://github.com/hk1776/manage/assets/77769783/29a02917-f4e7-40f5-aeb3-dd5836f495ec
+
+
 
 
 <br><br>
@@ -87,13 +91,15 @@ https://github.com/hk1776/manage/assets/77769783/20d8a188-7b83-4329-860b-21d081e
 <br>
 <h4>예상 기간 내 드론 일정 </h4>
 
-
-https://github.com/hk1776/manage/assets/77769783/2241f937-d2ab-4f15-8816-d8abe0faa2a7
+https://github.com/hk1776/manage/assets/77769783/8121dcc5-3a46-4cd5-a146-82e3719349a5
 
 <br>
 <h4> 출고 지연 드론 일정 </h4>
 
-https://github.com/hk1776/manage/assets/77769783/b2268893-a4fd-4660-9970-23093d44994e
+
+https://github.com/hk1776/manage/assets/77769783/1aab51f1-1aae-4f3e-a12e-2ca214b74411
+
+
 
 <br><br>
   - #### 비행 일정관리
