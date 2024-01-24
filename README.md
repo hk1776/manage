@@ -119,7 +119,8 @@ https://github.com/hk1776/manage/assets/77769783/df7f580a-734e-4ade-a9da-a7037a1
       - 검색된 드론에 대한 상세 정보 및 연관된 문의사항, A/S일정, 납품 일정 게시물에 대한 URL을 제공한다.<br>
       
 
-https://github.com/hk1776/manage/assets/77769783/c316ee15-4d6c-4058-9419-867cc19d64ae
+https://github.com/hk1776/manage/assets/77769783/2aa651a0-2bc3-4437-a9d9-8cb63f3c571f
+
 
 
 <br><br>
