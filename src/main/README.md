@@ -28,7 +28,7 @@
 	- FullCalendar
 	<br>
 
-HTML, CSS, JavaScript 및 BootStrap 사용해서 웹 페이지를 구성함. 드론 관리, 고객 문의 사항, A/S 일정, 납품 일정, 비행 일정 페이지가 있으며  <br>
-A/S 일정, 납품 일정, 비행 일정 페이지에 FullCalendar 라이브러리를 사용하여 일정 관리 기능을 구현하였다
+	HTML, CSS, JavaScript 및 BootStrap 사용해서 웹 페이지를 구성함. 드론 관리, 고객 문의 사항, A/S 일정, 납품 일정, 비행 일정 페이지가 있으며  <br>
+	A/S 일정, 납품 일정, 비행 일정 페이지에 FullCalendar 라이브러리를 사용하여 일정 관리 기능을 구현하였다
   
 
